@@ -1,6 +1,6 @@
-/** EasyWeb iframe v3.1.3 date:2019-07-12 License By http://easyweb.vip */
+/** EasyWeb iframe v3.1.4 date:2019-08-05 License By http://easyweb.vip */
 
-layui.define(['jquery', 'layer'], function (exports) {
+layui.define(['layer'], function (exports) {
     var $ = layui.jquery;
     var layer = layui.layer;
     var bodyDOM = '.layui-layout-admin>.layui-body';
@@ -12,7 +12,7 @@ layui.define(['jquery', 'layer'], function (exports) {
     var themeAdmin = 'theme-admin';  // 自带的主题
 
     var admin = {
-        version: '313',  // 版本号
+        version: '314',  // 版本号
         defaultTheme: 'theme-admin',  // 默认主题
         tableName: 'easyweb',  // 存储表名
         /* 设置侧栏折叠 */
@@ -47,29 +47,43 @@ layui.define(['jquery', 'layer'], function (exports) {
                 url = url.substring(url.indexOf('/'));
             }
             if (url && url != '') {
-                $(sideDOM + '>.layui-nav .layui-nav-item .layui-nav-child dd').removeClass('layui-this');
-                $(sideDOM + '>.layui-nav .layui-nav-item').removeClass('layui-this');
+                $(sideDOM + '>.layui-nav .layui-nav-item .layui-nav-child dd.layui-this').removeClass('layui-this');
+                $(sideDOM + '>.layui-nav .layui-nav-item.layui-this').removeClass('layui-this');
                 var $a = $(sideDOM + '>.layui-nav a[lay-href="' + url + '"]');
                 if ($a && $a.length > 0) {
-                    if ($(sideDOM + '>.layui-nav').attr('lay-accordion') == 'true') {
-                        $(sideDOM + '>.layui-nav .layui-nav-itemed').removeClass('layui-nav-itemed');
+                    var isMini = $('.layui-layout-admin').hasClass('admin-nav-mini');
+                    if ($(sideDOM + '>.layui-nav').attr('lay-accordion') == 'true') {  // 手风琴效果
+                        var $pChilds = $a.parent('dd').parents('.layui-nav-child');
+                        if (isMini) {
+                            $(sideDOM + '>.layui-nav .layui-nav-itemed>.layui-nav-child').not($pChilds).css('display', 'none');
+                        } else {
+                            $(sideDOM + '>.layui-nav .layui-nav-itemed>.layui-nav-child').not($pChilds).slideUp('fast');
+                        }
+                        $(sideDOM + '>.layui-nav .layui-nav-itemed').not($pChilds.parent()).removeClass('layui-nav-itemed');
                     }
                     $a.parent().addClass('layui-this');  // 选中当前
-                    $a.parent('dd').parents('.layui-nav-child').parent().addClass('layui-nav-itemed');  // 展开所有父级
+                    var $asParents = $a.parent('dd').parents('.layui-nav-child').parent();
+                    if (isMini) {
+                        $asParents.not('.layui-nav-itemed').children('.layui-nav-child').css('display', 'block');
+                    } else {
+                        $asParents.not('.layui-nav-itemed').children('.layui-nav-child').slideDown('fast', function () {
+                            // 菜单超出屏幕自动滚动
+                            var topBeyond = $a.offset().top + $a.outerHeight() + 30 - admin.getPageHeight();
+                            var topDisparity = 50 + 65 - $a.offset().top;
+                            if (topBeyond > 0) {
+                                $(sideDOM).animate({'scrollTop': $(sideDOM).scrollTop() + topBeyond}, 100);
+                            } else if (topDisparity > 0) {
+                                $(sideDOM).animate({'scrollTop': $(sideDOM).scrollTop() - topDisparity}, 100);
+                            }
+                        });
+                    }
+                    $asParents.addClass('layui-nav-itemed');  // 展开所有父级
                     // 适配多系统模式
                     $('ul[lay-filter="' + navFilter + '"]').addClass('layui-hide');
                     var $aUl = $a.parents('.layui-nav');
                     $aUl.removeClass('layui-hide');
                     $(headerDOM + '>.layui-nav>.layui-nav-item').removeClass('layui-this');
                     $(headerDOM + '>.layui-nav>.layui-nav-item>a[nav-bind="' + $aUl.attr('nav-id') + '"]').parent().addClass('layui-this');
-                    // 菜单超出屏幕自动滚动
-                    var topBeyond = $a.offset().top + $a.outerHeight() + 30 - admin.getPageHeight();
-                    var topDisparity = 50 + 65 - $a.offset().top;
-                    if (topBeyond > 0) {
-                        $(sideDOM).animate({'scrollTop': $(sideDOM).scrollTop() + topBeyond}, 100);
-                    } else if (topDisparity > 0) {
-                        $(sideDOM).animate({'scrollTop': $(sideDOM).scrollTop() - topDisparity}, 100);
-                    }
                 } else {
                     // console.warn(url + ' is not in left side');
                 }
@@ -83,17 +97,14 @@ layui.define(['jquery', 'layer'], function (exports) {
                 param.title = false;
                 param.closeBtn = false;
             }
-            if (param.anim == undefined) {
-                param.anim = 2;
-            }
             if (param.fixed == undefined) {
                 param.fixed = true;
             }
-            param.isOutAnim = false;
+            param.anim = -1;
             param.offset = 'r';
             param.shadeClose = true;
             param.area || (param.area = '336px');
-            param.skin || (param.skin = 'layui-layer-adminRight');
+            param.skin || (param.skin = 'layui-anim layui-anim-rl layui-layer-adminRight');
             param.move = false;
             return admin.open(param);
         },
@@ -106,7 +117,13 @@ layui.define(['jquery', 'layer'], function (exports) {
                 param.skin = 'layui-layer-admin';
             }
             if (!param.offset) {
-                param.offset = '35px';
+                if (admin.getPageWidth() < 768) {
+                    param.offset = '15px';
+                } else if (window == top) {
+                    param.offset = '70px';
+                } else {
+                    param.offset = '40px';
+                }
             }
             if (param.fixed == undefined) {
                 param.fixed = false;
@@ -143,6 +160,8 @@ layui.define(['jquery', 'layer'], function (exports) {
         },
         /* 封装ajax请求 */
         ajax: function (param) {
+            var currentHeader = param.header;
+            param.dataType || (param.dataType = 'json');
             var successCallback = param.success;
             param.success = function (result, status, xhr) {
                 // 判断登录过期和没有权限
@@ -165,6 +184,11 @@ layui.define(['jquery', 'layer'], function (exports) {
                 var headers = admin.getAjaxHeaders(param.url);
                 for (var i = 0; i < headers.length; i++) {
                     xhr.setRequestHeader(headers[i].name, headers[i].value);
+                }
+                if (currentHeader) {
+                    for (var f in currentHeader) {
+                        xhr.setRequestHeader(f, currentHeader[f]);
+                    }
                 }
             };
             $.ajax(param);
@@ -454,7 +478,7 @@ layui.define(['jquery', 'layer'], function (exports) {
         },
         /* 解决窗口缩放表格滚动条闪现 */
         hideTableScrollBar: function (win) {
-            if (admin.getPageWidth() > 750) {
+            if (admin.getPageWidth() > 768) {
                 if (!win) {
                     var $iframe = $(tabDOM + '>.layui-tab-content>.layui-tab-item.layui-show>.admin-iframe');
                     if ($iframe.length <= 0) {
@@ -555,6 +579,30 @@ layui.define(['jquery', 'layer'], function (exports) {
             }
             return win;
         },
+        // open事件解析layer参数
+        parseLayerOption: function (option) {
+            // 数组类型进行转换
+            for (var f in option) {
+                if (option[f] && option[f].toString().indexOf(',') != -1) {
+                    option[f] = option[f].toString().split(',');
+                }
+            }
+            // function类型参数转换
+            var funStrs = ['success', 'cancel', 'end', 'full', 'min', 'restore'];
+            for (var i = 0; i < funStrs.length; i++) {
+                for (var f in option) {
+                    if (f == funStrs[i]) {
+                        option[f] = window[option[f]];
+                    }
+                }
+            }
+            // content取内容
+            if (option.content && (typeof option.content === 'string') && option.content.indexOf('#') == 0) {
+                option.content = $(option.content).html();
+            }
+            (option.type == undefined) && (option.type = 2);  // 默认为iframe类型
+            return option;
+        },
         /* ajax预处理 */
         ajaxSuccessBefore: function (res, requestUrl) {
             return true;
@@ -634,34 +682,12 @@ layui.define(['jquery', 'layer'], function (exports) {
         /* 打开弹窗 */
         open: function () {
             var option = $(this).data();
-            (option.type == undefined) && (option.type = 2);  // 默认为iframe类型
-            // 数组类型进行转换
-            for (var f in option) {
-                if (option[f] && option[f].toString().indexOf(',') != -1) {
-                    option[f] = option[f].toString().split(',');
-                }
-            }
-            // content取内容
-            if (option.content && (typeof option.content === 'string') && option.content.indexOf('#') == 0) {
-                option.content = $(option.content).html();
-            }
-            admin.strToWin(option.window).layui.admin.open(option);
+            admin.strToWin(option.window).layui.admin.open(admin.parseLayerOption(admin.util.deepClone(option)));
         },
         /* 打开右侧弹窗 */
         popupRight: function () {
             var option = $(this).data();
-            (option.type == undefined) && (option.type = 2);  // 默认为iframe类型
-            // 数组类型进行转换
-            for (var f in option) {
-                if (option[f] && option[f].toString().indexOf(',') != -1) {
-                    option[f] = option[f].toString().split(',');
-                }
-            }
-            // content取内容
-            if (option.content && (typeof option.content === 'string') && option.content.indexOf('#') == 0) {
-                option.content = $(option.content).html();
-            }
-            admin.strToWin(option.window).layui.admin.popupRight(option);
+            admin.strToWin(option.window).layui.admin.popupRight(admin.parseLayerOption(admin.util.deepClone(option)));
         },
         /* 全屏 */
         fullScreen: function () {
@@ -699,7 +725,8 @@ layui.define(['jquery', 'layer'], function (exports) {
         },
         /* 关闭当前选项卡 */
         closeThisTabs: function () {
-            admin.strToWin($(this).data('window')).layui.admin.closeThisTabs();
+            var url = $(this).data('url');
+            admin.strToWin($(this).data('window')).layui.admin.closeThisTabs(url);
         },
         /* 关闭其他选项卡 */
         closeOtherTabs: function () {
@@ -1083,10 +1110,113 @@ layui.define(['jquery', 'layer'], function (exports) {
         });
     };
 
+    /** 工具类 */
+    admin.util = {
+        /* 百度地图坐标转高德地图坐标 */
+        Convert_BD09_To_GCJ02: function (point) {
+            var x_pi = (3.14159265358979324 * 3000.0) / 180.0;
+            var x = point.lng - 0.0065,
+                y = point.lat - 0.006;
+            var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * x_pi);
+            var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * x_pi);
+            point.lng = z * Math.cos(theta);
+            point.lat = z * Math.sin(theta);
+            return point;
+        },
+        /* 高德地图坐标转百度地图坐标 */
+        Convert_GCJ02_To_BD09: function (point) {
+            var x_pi = (3.14159265358979324 * 3000.0) / 180.0;
+            var x = point.lng, y = point.lat;
+            var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+            var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+            point.lng = z * Math.cos(theta) + 0.0065;
+            point.lat = z * Math.sin(theta) + 0.006;
+            return point;
+        },
+        /* 动态数字 */
+        animateNum: function (elem, isThd, delay, grain) {
+            var that = $(elem);  // 目标元素
+            var num = that.text().replace(/,/g, '');  // 内容
+            isThd = isThd === null || isThd === undefined || isThd === true || isThd === "true";  // 是否是千分位
+            delay = isNaN(delay) ? 500 : delay;   // 动画延迟
+            grain = isNaN(grain) ? 100 : grain;   // 动画粒度
+            var flag = "INPUT,TEXTAREA".indexOf(that.get(0).tagName) >= 0;  // 是否是输入框
+
+            var getPref = function (str) {
+                var pref = "";
+                for (var i = 0; i < str.length; i++) if (!isNaN(str.charAt(i))) return pref; else pref += str.charAt(i);
+            }, getSuf = function (str) {
+                var suf = "";
+                for (var i = str.length - 1; i >= 0; i--) if (!isNaN(str.charAt(i))) return suf; else suf = str.charAt(i) + suf;
+            }, toThd = function (num, isThd) {
+                if (!isThd) return num;
+                if (!/^[0-9]+.?[0-9]*$/.test(num)) return num;
+                num = num.toString();
+                return num.replace(num.indexOf(".") > 0 ? /(\d)(?=(\d{3})+(?:\.))/g : /(\d)(?=(\d{3})+(?:$))/g, '$1,');
+            };
+
+            var pref = getPref(num.toString());
+            var suf = getSuf(num.toString());
+            var strNum = num.toString().replace(pref, "").replace(suf, "");
+            if (isNaN(strNum) || strNum === 0) {
+                flag ? that.val(num) : that.html(num);
+                console.error("非法数值！");
+                return;
+            }
+            var int_dec = strNum.split(".");
+            var deciLen = int_dec[1] ? int_dec[1].length : 0;
+            var startNum = 0.0, endNum = strNum;
+            if (Math.abs(endNum) > 10) startNum = parseFloat(int_dec[0].substring(0, int_dec[0].length - 1) + (int_dec[1] ? ".0" + int_dec[1] : ""));
+            var oft = (endNum - startNum) / grain, temp = 0;
+            var mTime = setInterval(function () {
+                var str = pref + toThd(startNum.toFixed(deciLen), isThd) + suf;
+                flag ? that.val(str) : that.html(str);
+                startNum += oft;
+                temp++;
+                if (Math.abs(startNum) >= Math.abs(endNum) || temp > 5000) {
+                    str = pref + toThd(endNum, isThd) + suf;
+                    flag ? that.val(str) : that.html(str);
+                    clearInterval(mTime);
+                }
+            }, delay / grain);
+        },
+        /* 深度克隆对象 */
+        deepClone: function (obj) {
+            var result;
+            var oClass = admin.util.isClass(obj);
+            if (oClass === "Object") {
+                result = {};
+            } else if (oClass === "Array") {
+                result = [];
+            } else {
+                return obj;
+            }
+            for (var key in obj) {
+                var copy = obj[key];
+                if (admin.util.isClass(copy) == "Object") {
+                    result[key] = arguments.callee(copy); // 递归调用
+                } else if (admin.util.isClass(copy) == "Array") {
+                    result[key] = arguments.callee(copy);
+                } else {
+                    result[key] = obj[key];
+                }
+            }
+            return result;
+        },
+        /* 获取变量类型 */
+        isClass: function (o) {
+            if (o === null)
+                return "Null";
+            if (o === undefined)
+                return "Undefined";
+            return Object.prototype.toString.call(o).slice(8, -1);
+        }
+    };
+
     /** 侧导航折叠状态下鼠标经过无限悬浮效果 */
     var navItemDOM = '.layui-layout-admin.admin-nav-mini>.layui-side .layui-nav .layui-nav-item';
     $(document).on('mouseenter', navItemDOM + ',' + navItemDOM + ' .layui-nav-child>dd', function () {
-        if (admin.getPageWidth() > 750) {
+        if (admin.getPageWidth() > 768) {
             var $that = $(this), $navChild = $that.find('>.layui-nav-child');
             if ($navChild.length > 0) {
                 $that.addClass('admin-nav-hover');
@@ -1094,23 +1224,27 @@ layui.define(['jquery', 'layer'], function (exports) {
                 var top = $that.offset().top;
                 if (top + $navChild.outerHeight() > admin.getPageHeight()) {
                     top = top - $navChild.outerHeight() + $that.outerHeight();
-                    (top < 0) && (top = 10);
+                    (top < 60) && (top = 60);
                     $navChild.addClass('show-top');
                 }
                 $navChild.css('top', top);
+                $navChild.addClass('ew-anim-drop-in');
             } else if ($that.hasClass('layui-nav-item')) {
                 var tipText = $that.find('cite').text();
                 layer.tips(tipText, $that, {
                     tips: [2, '#303133'], time: -1, success: function (layero, index) {
-                        $(layero).css('margin-top', '15px');
+                        $(layero).css('margin-top', '12px');
                     }
                 });
             }
         }
     }).on('mouseleave', navItemDOM + ',' + navItemDOM + ' .layui-nav-child>dd', function () {
         layer.closeAll('tips');
-        $(this).removeClass('admin-nav-hover');
-        $(this).find('>.layui-nav-child').removeClass('show-top');
+        var $this = $(this);
+        $this.removeClass('admin-nav-hover');
+        var $child = $this.find('>.layui-nav-child');
+        $child.removeClass('show-top ew-anim-drop-in');
+        $child.css({'left': 'unset', 'top': 'unset'});
     });
 
     /** 所有ew-event */
@@ -1139,6 +1273,13 @@ layui.define(['jquery', 'layer'], function (exports) {
     }).on('mouseleave', '*[lay-tips]', function () {
         layer.closeAll('tips');
     });
+
+    // 非手机访问针对iframe宽度较小时的滚动条美化
+    if (admin.getPageWidth() < 768) {
+        if (layui.device().os == 'windows') {
+            $('body').append('<style>@media screen and (max-width: 768px) {::-webkit-scrollbar{width:8px;height:9px;background:transparent}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{border-radius:5px;background-color:#c1c1c1}::-webkit-scrollbar-thumb:hover{background-color:#a8a8a8}.mini-bar::-webkit-scrollbar{width:5px;height:5px}.mini-bar::-webkit-scrollbar-thumb{border-radius:3px}}</style>')
+        }
+    }
 
     /** 所有ew-href处理 */
     $(document).on('click', '*[ew-href]', function () {

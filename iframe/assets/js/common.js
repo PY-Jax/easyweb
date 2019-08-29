@@ -1,4 +1,4 @@
-/** EasyWeb iframe v3.1.3 date:2019-07-12 License By http://easyweb.vip */
+/** EasyWeb iframe v3.1.4 date:2019-08-05 License By http://easyweb.vip */
 
 // 以下代码是配置layui扩展模块的目录，每个页面都需要引入
 layui.config({
@@ -17,7 +17,10 @@ layui.config({
     zTree: 'zTree/zTree',
     introJs: 'introJs/introJs',
     fileChoose: 'fileChoose/fileChoose',
-    tagsInput: 'tagsInput/tagsInput'
+    tagsInput: 'tagsInput/tagsInput',
+    CKEDITOR: 'ckeditor/ckeditor',
+    Split: 'Split/Split',
+    cascader: 'cascader/cascader'
 }).use(['layer', 'admin'], function () {
     var $ = layui.jquery;
     var layer = layui.layer;

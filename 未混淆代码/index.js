@@ -1,4 +1,4 @@
-/** EasyWeb iframe v3.1.3 date:2019-07-12 License By http://easyweb.vip */
+/** EasyWeb iframe v3.1.4 date:2019-07-12 License By http://easyweb.vip */
 
 layui.define(['layer', 'element', 'admin'], function (exports) {
     var $ = layui.jquery;
@@ -104,7 +104,7 @@ layui.define(['layer', 'element', 'admin'], function (exports) {
                 }
             }
             // 移动设备切换页面隐藏侧导航
-            if (admin.getPageWidth() <= 750) {
+            if (admin.getPageWidth() <= 768) {
                 admin.flexible(true);
             }
         },
@@ -331,14 +331,14 @@ layui.define(['layer', 'element', 'admin'], function (exports) {
                 menuName: menuName
             });
         }
-        // 手风琴侧边栏
-        if ('true' == ($(sideDOM + '>.layui-nav-tree').attr('lay-accordion'))) {
+        // 手风琴侧边栏(已由element模块实现)
+        /*if ('true' == ($(sideDOM + '>.layui-nav-tree').attr('lay-accordion'))) {
             if (($that.parent().hasClass('layui-nav-itemed')) || ($that.parent().hasClass('layui-this'))) {
                 $(sideDOM + '>.layui-nav .layui-nav-itemed').not($that.parents('.layui-nav-child').parent()).removeClass('layui-nav-itemed');
                 $that.parent().addClass('layui-nav-itemed');
             }
             $that.trigger('mouseenter');
-        }
+        }*/
     });
 
     /** tab选项卡切换监听 */
@@ -399,7 +399,7 @@ layui.define(['layer', 'element', 'admin'], function (exports) {
         var navId = $(this).attr('nav-bind');
         $('ul[lay-filter="' + navFilter + '"]').addClass('layui-hide');
         $('ul[nav-id="' + navId + '"]').removeClass('layui-hide');
-        if (admin.getPageWidth() <= 750) {
+        if (admin.getPageWidth() <= 768) {
             admin.flexible(false);  // 展开侧边栏
         }
         $(headerDOM + '>.layui-nav .layui-nav-item').removeClass('layui-this');
