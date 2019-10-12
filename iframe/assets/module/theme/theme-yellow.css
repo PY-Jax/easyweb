@@ -54,7 +54,7 @@
     background-color: #F78400;
 }
 
-.layui-nav-tree .layui-nav-bar {
+.layui-nav-tree .layui-nav-bar, .layui-nav-tree > .layui-nav-item > a:before {
     background-color: #F78400;
 }
 

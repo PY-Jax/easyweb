@@ -56,9 +56,8 @@
     color: #fff;
 }
 
-.layui-nav-tree .layui-nav-bar {
+.layui-nav-tree .layui-nav-bar, .layui-nav-tree > .layui-nav-item > a:before {
     background-color: #fff;
-    width: 4px;
 }
 
 .layui-side .layui-nav-itemed > a, .layui-nav-tree .layui-nav-title a, .layui-nav-tree .layui-nav-title a:hover, .layui-side .layui-nav-item.layui-this > a {
@@ -109,7 +108,7 @@
 .layui-layer.layui-layer-admin .layui-layer-title {
     background-color: #fff;
     color: #333;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #f6f6f6;
 }
 
 /** 按钮颜色 */

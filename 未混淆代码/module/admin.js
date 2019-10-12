@@ -1,4 +1,4 @@
-/** EasyWeb iframe v3.1.4 date:2019-08-05 License By http://easyweb.vip */
+/** EasyWeb iframe v3.1.5 date:2019-10-05 License By http://easyweb.vip */
 
 layui.define(['layer'], function (exports) {
     var $ = layui.jquery;
@@ -146,7 +146,37 @@ layui.define(['layer'], function (exports) {
                     });
                 };
             }
-            return layer.open(param);
+            var layIndex = layer.open(param);
+            (param.data) && (admin.layerData['d' + layIndex] = param.data);
+            return layIndex;
+        },
+        /* 弹窗数据 */
+        layerData: {},
+        /* 获取弹窗数据 */
+        getLayerData: function (index, key) {
+            if (index == undefined) {
+                index = parent.layer.getFrameIndex(window.name);
+                return parent.layui.admin.getLayerData(index, key);
+            } else if (index.toString().indexOf('#') == 0) {
+                index = $(index).parents('.layui-layer').attr('id').substring(11);
+            }
+            var layerData = admin.layerData['d' + index];
+            if (key) {
+                return layerData ? layerData[key] : layerData;
+            }
+            return layerData;
+        },
+        /* 放入弹窗数据 */
+        putLayerData: function (key, value, index) {
+            if (index == undefined) {
+                index = parent.layer.getFrameIndex(window.name);
+                return parent.layui.admin.putLayerData(key, value, index);
+            } else if (index.toString().indexOf('#') == 0) {
+                index = $(index).parents('.layui-layer').attr('id').substring(11);
+            }
+            var layerData = admin.getLayerData(index);
+            layerData || (layerData = {});
+            layerData[key] = value;
         },
         /* 封装ajax请求，返回数据类型为json */
         req: function (url, data, success, method) {
@@ -579,7 +609,7 @@ layui.define(['layer'], function (exports) {
             }
             return win;
         },
-        // open事件解析layer参数
+        /* open事件解析layer参数 */
         parseLayerOption: function (option) {
             // 数组类型进行转换
             for (var f in option) {
@@ -1210,6 +1240,31 @@ layui.define(['layer'], function (exports) {
             if (o === undefined)
                 return "Undefined";
             return Object.prototype.toString.call(o).slice(8, -1);
+        },
+        /** 判断富文本是否为空 */
+        fullTextIsEmpty: function (text) {
+            if (!text) {
+                return true;
+            }
+            var noTexts = ['img', 'audio', 'video', 'iframe', 'object'];
+            for (var i = 0; i < noTexts.length; i++) {
+                if (text.indexOf('<' + noTexts[i]) > -1) {
+                    return false;
+                }
+            }
+            var str = text.replace(/\s*/g, '');  // 去掉所有空格
+            if (!str) {
+                return true;
+            }
+            str = str.replace(/&nbsp;/ig, '');  // 去掉所有&nbsp;
+            if (!str) {
+                return true;
+            }
+            str = str.replace(/<[^>]+>/g, '');   // 去掉所有html标签
+            if (!str) {
+                return true;
+            }
+            return false;
         }
     };
 

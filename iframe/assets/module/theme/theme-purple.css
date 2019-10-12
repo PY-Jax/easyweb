@@ -54,7 +54,7 @@
     background-color: #722ED1;
 }
 
-.layui-nav-tree .layui-nav-bar {
+.layui-nav-tree .layui-nav-bar, .layui-nav-tree > .layui-nav-item > a:before {
     background-color: #722ED1;
 }
 

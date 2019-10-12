@@ -53,7 +53,7 @@
     background-color: #1890FF;
 }
 
-.layui-nav-tree .layui-nav-bar {
+.layui-nav-tree .layui-nav-bar, .layui-nav-tree > .layui-nav-item > a:before {
     background-color: #1890FF;
 }
 

@@ -7,6 +7,7 @@ CKEDITOR.editorConfig = function (config) {
     // Define changes to default configuration here. For example:
     // config.language = 'fr';
     // config.uiColor = '#AADC6E';
+    config.baseFloatZIndex = 19892000;
 
     // 图片上传配置
     config.image_previewText = ' ';  // 清除图片预览的文字

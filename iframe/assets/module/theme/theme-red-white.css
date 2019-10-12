@@ -1,3 +1,7 @@
+html {
+    background-color: #F5F7F9;
+}
+
 /** 透明侧边栏导航 */
 .layui-layout-admin .layui-side .layui-nav {
     background-color: transparent;
@@ -5,31 +9,32 @@
 
 .layui-layout-admin .layui-side .layui-nav .layui-nav-item > a:hover {
     background: transparent;
-    color: #FA541C !important;
-}
-
-.layui-layout-admin .layui-side .layui-nav .layui-nav-item dd > a:hover {
-    color: #FA541C !important;
 }
 
 /** logo部分样式 */
 .layui-layout-admin .layui-header .layui-logo {
-    background-color: #DD4B39;
-    color: #fff;
-    box-shadow: none !important;
+    background-color: transparent;
+    line-height: 60px;
+    box-shadow: none;
+    width: 235px;
 }
 
 /** header样式 */
 .layui-layout-admin .layui-header {
     background-color: #DD4B39;
+    height: 60px;
+}
+
+.layui-layout-admin .layui-header > ul > li > a {
+    line-height: 59px;
 }
 
 .layui-layout-admin .layui-header a {
-    color: #fff;
+    color: #ffffff;
 }
 
 .layui-layout-admin .layui-header a:hover {
-    color: #fff;
+    color: #ffffff;
 }
 
 /** header里面三角箭头 */
@@ -43,34 +48,53 @@
 
 /** header线条 */
 .layui-layout-admin .layui-header .layui-nav .layui-this:after, .layui-layout-admin .layui-header .layui-nav-bar {
-    background-color: #fff;
+    background-color: #DD4B39;
 }
 
 /** 侧边栏样式 */
 .layui-layout-admin .layui-side {
     background-color: #fff;
-    box-shadow: 0px 0 1px rgba(0, 0, 0, .05);
+    top: 60px;
+    box-shadow: 2px 0 8px 0 rgba(29, 35, 41, .05);
+    width: 235px;
 }
 
 /** 侧边栏文字颜色 */
 .layui-side .layui-nav .layui-nav-item a {
-    color: #515A6E;
+    color: #555555;
 }
 
-.layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this > a, .layui-nav-tree .layui-this > a:hover {
+.layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this > a {
     background: #FFF2E8;
-    color: #FA541C !important;
-    border-right: 1px solid #FA541C;
+    color: #DD4B39 !important;
+    border-right: 1px solid #DD4B39;
 }
 
-.layui-nav-tree .layui-nav-bar {
-    background-color: #FA541C;
-    width: 4px;
-    display: none;
+.layui-side .layui-nav-item.layui-this > a {
+    color: #333 !important;
+    background-color: #F6F7FB !important;
+    border: none;
+}
+
+.layui-side .layui-nav-itemed > a > cite {
+    font-weight: bold;
+}
+
+.layui-nav-tree .layui-nav-bar, .layui-nav-tree > .layui-nav-item > a:before {
+    background-color: #DD4B39;
+    top: 5px;
+    width: 5px;
+    box-shadow: 2px 0px 10px rgba(221, 75, 57, .9);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.layui-nav-tree > .layui-nav-item:hover > a:before {
+    bottom: 5px;
 }
 
 .layui-side .layui-nav-itemed > a, .layui-nav-tree .layui-nav-title a, .layui-nav-tree .layui-nav-title a:hover {
-    color: #515A6E !important;
+    color: #333 !important;
 }
 
 .layui-layout-admin.admin-nav-mini .layui-side .layui-nav li.layui-nav-itemed > a {
@@ -105,6 +129,7 @@
 /** 侧边栏小三角样式 */
 .layui-layout-admin .layui-side .layui-nav .layui-nav-more {
     border-color: #515A6E transparent transparent;
+    color: #9da1ac;
 }
 
 .layui-layout-admin .layui-side .layui-nav .layui-nav-itemed > a .layui-nav-more {
@@ -115,42 +140,207 @@
     background-color: #515A6E;
 }
 
-/** tab下划线 */
-.layui-layout-admin .layui-body > .layui-tab > .layui-tab-title li.layui-this:after {
-    background-color: #FA541C;
-    top: 38px;
+/** 侧边栏图标样式 */
+.layui-side .layui-nav-item > a > .layui-icon {
+    background-color: #61B2FC;
+    color: #fff;
+    border-radius: 50%;
+    padding: 6px;
+    font-size: 16px;
+}
+
+.layui-side .layui-nav-item > a > cite {
+    font-size: 15px;
+}
+
+.layui-side .layui-nav-item:nth-child(even) > a > .layui-icon {
+    background-color: #7DD733;
+}
+
+.layui-side .layui-nav-item:nth-child(3) > a > .layui-icon {
+    background-color: #32A2D4;
+}
+
+.layui-side .layui-nav-item:nth-child(4) > a > .layui-icon {
+    background-color: #2BCCCE;
+}
+
+.layui-side .layui-nav-item:nth-child(5) > a > .layui-icon {
+    background-color: #7383CF;
+}
+
+@media screen and (min-width: 768px) {
+    .admin-nav-mini .layui-side .layui-nav-item > a {
+        padding-left: 16px;
+    }
+}
+
+/** 调整多级菜单字体间距 */
+.layui-side .layui-nav-item > a {
+    padding-left: 30px;
+}
+
+.layui-layout-admin .layui-side .layui-nav .layui-nav-item .layui-nav-child a {
+    padding-left: 70px;
+}
+
+.layui-layout-admin .layui-side .layui-nav .layui-nav-item .layui-nav-child .layui-nav-child a {
+    padding-left: 90px;
+}
+
+.layui-layout-admin .layui-side .layui-nav .layui-nav-item .layui-nav-child .layui-nav-child .layui-nav-child a {
+    padding-left: 110px;
+}
+
+.layui-layout-admin .layui-side .layui-nav .layui-nav-item .layui-nav-child .layui-nav-child .layui-nav-child .layui-nav-child a {
+    padding-left: 130px;
+}
+
+/** 侧边栏宽度调整 */
+.layui-layout-admin .layui-side .layui-side-scroll {
+    width: 255px;
+}
+
+.layui-layout-admin .layui-side .layui-nav {
+    width: 235px;
+}
+
+.layui-layout-admin .layui-body {
+    left: 235px;
+}
+
+.layui-layout-admin .layui-footer {
+    left: 235px;
+}
+
+.layui-layout-admin .layui-header .layui-layout-left {
+    left: 235px;
+}
+
+@media screen and (max-width: 768px) {
+    .layui-layout-admin {
+        left: -235px;
+    }
+
+    .layui-layout-admin.admin-nav-mini .site-mobile-shade {
+        left: 235px;
+    }
+
+    .layui-layout-admin .layui-side, .layui-layout-admin .layui-header .layui-logo:after {
+        box-shadow: none;
+    }
+}
+
+
+/** tab部分 */
+.layui-layout-admin .layui-body > .layui-tab > .layui-tab-title {
+    height: 32px;
+    line-height: 32px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
+}
+
+.layui-layout-admin .layui-body > .layui-tab > .layui-tab-title li {
+    line-height: 32px;
+    height: 32px;
+    background: #fff;
+    border-radius: 32px;
+    border: none;
+    margin: 0 3px;
+    color: #555555;
+    transition: all .3s;
+}
+
+.layui-layout-admin .layui-body > .layui-tab > .layui-tab-title li:hover, .layui-layout-admin .layui-body > .layui-tab > .layui-tab-title li.layui-this {
+    background: #fff;
+}
+
+.layui-layout-admin .layui-body > .layui-tab > .layui-tab-title li.layui-this {
+    color: #333333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .15);
+}
+
+.layui-layout-admin .layui-body .admin-tabs-control {
+    background-color: #fff;
+    border: none;
+    height: 32px;
+    line-height: 32px;
+    top: 6px;
+    color: #bac2d6;
+}
+
+.layui-layout-admin .layui-body .admin-tabs-control:hover {
+    background-color: #fff;
+    color: #9ea6bc;
+}
+
+.layui-layout-admin .layui-body > .layui-tab > .layui-tab-title li .layui-tab-close {
+    top: 9px;
+}
+
+.layui-layout-admin .layui-body > .layui-tab > .layui-tab-title li .layui-tab-close:hover {
+    background-color: #DDE0EF;
+    color: #555555;
 }
 
 .admin-tabs-control, .layui-tab-title, .layui-tab-title .layui-this {
     color: #515A6E;
 }
 
+.layui-layout-admin .layui-body > .layui-tab > .layui-tab-content {
+    top: 44px;
+}
+
+/** tab下划线 */
+.layui-layout-admin .layui-body > .layui-tab > .layui-tab-title li.layui-this:after {
+    background-color: #DD4B39;
+    display: none;
+}
+
+/** 主体部分 */
+.layui-layout-admin .layui-body {
+    top: 60px;
+}
+
 /** 主体标题 */
 .layui-body-header-title {
-    border-left-color: #FA541C;
+    border-left-color: #DD4B39;
 }
 
 /** 主题切换 */
 .btnTheme:hover, .btnTheme.active {
-    border-color: #FA541C;
+    border-color: #DD4B39;
 }
 
 /** admin风格弹窗样式 */
 .layui-layer.layui-layer-admin {
-    border-radius: 6px;
+    /*border-radius: 6px;*/
+}
+
+.layui-layer.layui-layer-admin > .layui-layer-content > iframe {
+    /*border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;*/
 }
 
 .layui-layer.layui-layer-admin .layui-layer-title {
     background-color: #fff;
     color: #333;
-    border-bottom: 1px solid #eee;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-bottom: 1px solid #f9f9f9;
+    height: 45px;
+    line-height: 45px;
+    /*border-top-left-radius: 6px;
+    border-top-right-radius: 6px;*/
 }
 
 /** 按钮颜色 */
+.layui-layer.layui-layer-admin .layui-layer-setwin {
+    top: 14px;
+}
+
 .layui-layer.layui-layer-admin .layui-layer-setwin a {
     color: #515A6E;
+    font-weight: 600;
 }
 
 /* 最小化按钮 */

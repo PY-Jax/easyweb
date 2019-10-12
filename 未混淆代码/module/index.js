@@ -1,4 +1,4 @@
-/** EasyWeb iframe v3.1.4 date:2019-07-12 License By http://easyweb.vip */
+/** EasyWeb iframe v3.1.5 date:2019-10-05 License By http://easyweb.vip */
 
 layui.define(['layer', 'element', 'admin'], function (exports) {
     var $ = layui.jquery;
@@ -122,7 +122,7 @@ layui.define(['layer', 'element', 'admin'], function (exports) {
                 admin.activeNav(param.menuPath);  // 设置导航栏选中
             }
             if (loadSetting) {
-                index.loadSettings(indexTabs, tabPosition);
+                index.loadSettings(indexTabs, tabPosition, param.onlyLast);
             }
         },
         /* 打开新页面 */
@@ -154,7 +154,7 @@ layui.define(['layer', 'element', 'admin'], function (exports) {
             element.tabDelete(tabFilter, url);
         },
         /* 加载设置 */
-        loadSettings: function (cacheTabs, cacheTabPosition) {
+        loadSettings: function (cacheTabs, cacheTabPosition, onlyLast) {
             // 恢复记忆的tab选项卡
             if (index.cacheTab) {
                 var indexTabs = cacheTabs;
@@ -162,7 +162,7 @@ layui.define(['layer', 'element', 'admin'], function (exports) {
                 if (indexTabs) {
                     var mi = -1;
                     for (var i = 0; i < indexTabs.length; i++) {
-                        if (index.pageTabs) {
+                        if (index.pageTabs && !onlyLast) {
                             index.loadView(indexTabs[i]);
                         }
                         if (indexTabs[i].menuPath == tabPosition) {

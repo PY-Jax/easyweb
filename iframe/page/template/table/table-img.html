@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>表格缩略图</title>
     <link rel="stylesheet" href="../../../assets/libs/layui/css/layui.css"/>
-    <link rel="stylesheet" href="../../../assets/module/admin.css?v=314"/>
+    <link rel="stylesheet" href="../../../assets/module/admin.css?v=315"/>
     <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -45,7 +45,7 @@
 <!-- 正文开始 -->
 <div class="layui-fluid">
     <div class="layui-card">
-        <div class="layui-card-body" id="layPhotosTbImg">
+        <div class="layui-card-body">
             <table id="tableTbImg" lay-filter="tableTbImg"></table>
         </div>
     </div>
@@ -53,7 +53,7 @@
 
 <!-- js部分 -->
 <script type="text/javascript" src="../../../assets/libs/layui/layui.js"></script>
-<script type="text/javascript" src="../../../assets/js/common.js?v=314"></script>
+<script type="text/javascript" src="../../../assets/js/common.js?v=315"></script>
 
 <script>
     layui.use(['layer', 'table', 'util'], function () {
@@ -74,7 +74,7 @@
                     align: 'center', templet: function (d) {
                         // var url = d.imgUrl;
                         var url = 'https://pic.qqtn.com/up/2018-9/15367146917869444.jpg';
-                        return '<img src="' + url + '" class="tdImg" />';
+                        return '<img src="' + url + '" class="tdImg" tb-img/>';
                     }, title: '头像', width: 90, unresize: true
                 },
                 {field: 'username', align: 'center', sort: true, title: '账号'},
@@ -86,14 +86,12 @@
                         return util.toDateString(d.createTime);
                     }, title: '创建时间'
                 }
-            ]],
-            done: function () {
-                layer.photos({
-                    photos: '#layPhotosTbImg',
-                    shade: .1,
-                    closeBtn: true
-                });
-            }
+            ]]
+        });
+
+        // 点击图片放大
+        $(document).off('click.tbImg').on('click.tbImg', '[tb-img]', function () {
+            layer.photos({photos: {data: [{src: $(this).attr('src')}]}, shade: .1, closeBtn: true});
         });
 
     });

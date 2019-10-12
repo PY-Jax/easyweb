@@ -1,8 +1,8 @@
-/** EasyWeb iframe v3.1.4 date:2019-08-05 License By http://easyweb.vip */
+﻿/** EasyWeb iframe v3.1.5 date:2019-10-05 License By http://easyweb.vip */
 
 // 以下代码是配置layui扩展模块的目录，每个页面都需要引入
 layui.config({
-    version: true,
+    version: '315',
     base: getProjectUrl() + 'assets/module/'
 }).extend({
     formSelects: 'formSelects/formSelects-v4',
@@ -18,6 +18,7 @@ layui.config({
     introJs: 'introJs/introJs',
     fileChoose: 'fileChoose/fileChoose',
     tagsInput: 'tagsInput/tagsInput',
+    Drag: 'Drag/Drag',
     CKEDITOR: 'ckeditor/ckeditor',
     Split: 'Split/Split',
     cascader: 'cascader/cascader'

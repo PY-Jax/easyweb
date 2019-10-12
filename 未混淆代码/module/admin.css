@@ -1,4 +1,4 @@
-﻿/** EasyWeb iframe v3.1.4 date:2019-08-05 License By http://easyweb.vip */
+﻿/** EasyWeb iframe v3.1.5 date:2019-10-05 License By http://easyweb.vip */
 
 * {
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
@@ -137,7 +137,7 @@ html {
 
 /* header里面小圆点 */
 .layui-header .layui-badge-dot {
-    margin: -9px 0px 0px 11px;
+    margin: -9px 0px 0px 1px;
 }
 
 /** //header样式结束 */
@@ -214,6 +214,22 @@ html {
 
 .layui-nav-tree .layui-nav-bar {
     width: 4px;
+    display: none;
+}
+
+.layui-nav-tree > .layui-nav-item > a:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 100%;
+    width: 3px;
+    background-color: #009688;
+    transition: all .3s ease;
+}
+
+.layui-nav-tree > .layui-nav-item:hover > a:before {
+    bottom: 0;
 }
 
 /* admin的side样式 */
@@ -288,7 +304,7 @@ html {
 /** 侧边栏样式结束 */
 
 /** 侧导航折叠样式PC */
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
     .layui-layout-admin.admin-nav-mini .layui-header .layui-logo {
         width: 60px;
     }
@@ -685,12 +701,11 @@ html {
     overflow: hidden;
     line-height: normal;
     border: none;
-    margin: 0;
+    margin: -3px 0 0 0;
     padding: 0;
     width: 10px;
     height: 6px;
     top: 50%;
-    margin-top: -3px;
     display: inline-block;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
@@ -721,12 +736,11 @@ html {
     overflow: hidden;
     line-height: normal;
     border: none;
-    margin: 0;
+    margin: -5px 0 0 0;
     padding: 0;
     width: 10px;
     height: 10px;
     top: 50%;
-    margin-top: -5px;
     display: inline-block;
     -webkit-transition: all .3s ease;
     transition: all .3s ease;
@@ -777,6 +791,8 @@ html {
 
 .page-no-scroll {
     overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
     min-height: 80px;
 }
 
@@ -1394,7 +1410,7 @@ html {
     text-decoration: none;
 }
 
-span.icon-text .layui-icon {
+span.icon-text .layui-icon, a.icon-text .layui-icon {
     font-size: 14px;
     margin-left: 2px;
 }
@@ -1431,7 +1447,7 @@ span.icon-text .layui-icon {
 
 /** 输入框禁用样式重写 */
 input.layui-disabled, input.layui-disabled:hover {
-    color: rgb(84, 84, 84) !important;
+    color: #555555 !important;
     background-color: #eee;
 }
 
@@ -1459,18 +1475,18 @@ input.layui-disabled, input.layui-disabled:hover {
 }
 
 /** xm-select样式优化 */
-.xm-select-parent .xm-select-title div.xm-select-label > span i {
+body .xm-select-parent .xm-select-title div.xm-select-label > span i {
     top: 2px;
     right: 5px;
 }
 
-.xm-select-parent .xm-select-title div.xm-select-label > span font {
+body .xm-select-parent .xm-select-title div.xm-select-label > span font {
     overflow: hidden;
     max-height: 18px;
     display: inline-block;
 }
 
-.xm-select-parent dd > .xm-cz-group {
+body .xm-select-parent dd > .xm-cz-group {
     margin-right: 22px !important;
 }
 
@@ -1482,6 +1498,10 @@ input.layui-disabled, input.layui-disabled:hover {
 
 .xm-select-nri .xm-select-parent dd > .xm-cz {
     display: none !important;
+}
+
+body div[xm-select-skin=default] .xm-select-title div.xm-select-label > span {
+    color: #888;
 }
 
 /** 滚动条样式美化 */
@@ -1860,3 +1880,16 @@ body .layui-util-face .layui-layer-content {
 }
 
 /** //laydate range模式下在小屏幕下样式自适应end */
+
+/** 让layui的tree无连接线风格的展开时的箭头朝下 */
+.layui-tree-spread > div > div > span > .layui-tree-iconArrow:after {
+    border-color: #c0c4cc transparent transparent transparent;
+    top: 6px;
+    left: 0px;
+}
+
+.layui-tree .layui-tree-iconArrow:after {
+    transition: none;
+}
+
+/** //让layui的tree无连接线风格的展开时的箭头朝下end */
