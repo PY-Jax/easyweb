@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="../../../assets/libs/layui/css/layui.css"/>
+    <link rel="stylesheet" href="../../../assets/module/admin.css?v=315"/>
+    <style type="text/css">
+    	.layui-btn-primary{
+    		background-color: #d9dfe5 !important;
+    		border-color: #d9dfe5;
+    	}
+    </style>
+</head>
+<body>
+
+<!-- 正文开始 -->
+<div class="layui-fluid">
+	<a ew-href="page/plugin/basic/tips.html" ew-title="测试跳转"><i class="layui-icon layui-icon-notice"></i></a>
+    <div class="layui-btn-enterprise" style="float: right;">
+        <button class="layui-btn layui-btn-primary"  style="background-color: #546478 !important;color: #fff;"   data-type="set" data-key="1" data-value="1">全部消息</button>
+        <button class="layui-btn layui-btn-primary"  data-type="set" data-key="6" data-value="6">产品消息</button>
+        <!--<button class="layui-btn layui-btn-primary" style="background-color: #5FB878;"  data-type="set" data-key="6" data-value="6">6小时</button>-->
+        <button class="layui-btn layui-btn-primary" data-type="set" data-key="12" data-value="12">告警消息</button>
+        <button class="layui-btn layui-btn-primary" data-type="set" data-key="24" data-value="24">运维消息</button>
+        <button class="layui-btn layui-btn-primary" data-type="set" data-key="48" data-value="48">3日</button>
+    </div>
+    
+</div>
+
+<!-- 表单弹窗 -->
+
+<!-- js部分 -->
+<script type="text/javascript" src="../../../assets/libs/layui/layui.js"></script>
+<script type="text/javascript" src="../../../assets/js/common.js?v=315"></script>
+<script>
+    layui.use(['layer', 'admin', 'index'], function () {
+        var $ = layui.jquery;
+        var layer = layui.layer;
+        var admin = layui.admin;
+        var index = layui.index;
+
+
+    });
+</script>
+</body>
+</html>
