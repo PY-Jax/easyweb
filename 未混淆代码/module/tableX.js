@@ -10,7 +10,7 @@ layui.define(['layer', 'table', 'laytpl', 'form', 'util', 'contextMenu'], functi
     var form = layui.form;
     var util = layui.util;
     var contextMenu = layui.contextMenu;
-    var device = layui.device;
+    var device = layui.device();
     var tbSearchAttr = 'tb-search';  // 前端搜索属性
     var tbRefreshAttr = 'tb-refresh';  // 刷新按钮属性
     var tbExportAttr = 'tb-export';  // 导出按钮属性

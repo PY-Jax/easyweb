@@ -66,6 +66,10 @@
             padding-left: 55px !important;
             width: 100% !important;
         }
+        
+        .select-showitem + .layui-form-select dl{
+        	height: 120px !important;
+        }
 
     </style>
 </head>
@@ -188,7 +192,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">课程:</label>
                     <div class="layui-input-block">
-                        <select name="courseId" lay-verType="tips" lay-verify="required" required>
+                        <select class="select-showitem" name="courseId" lay-verType="tips" lay-verify="required" required>
                             <option value="">请选择课程</option>
                             <option value="1">Java初级编程</option>
                             <option value="2">php编程</option>

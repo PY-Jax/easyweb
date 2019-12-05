@@ -349,6 +349,7 @@
         $('#btnDialog8').click(function () {
             admin.open({
                 type: 1,
+                fixed: false,
                 title: '添加学生实习信息',
                 content: $('#modelPtInfo').html(),
                 success: function (layero, dIndex) {
@@ -376,7 +377,9 @@
             admin.open({
                 type: 1,
                 title: '添加授权',
-                area: '745px',
+                area: ['745px'],
+                fixed: false,
+                move: false,
                 content: $('#modelSDKAuth').html(),
                 success: function (layero, dIndex) {
                     $(layero).children('.layui-layer-content').css('overflow', 'visible');
